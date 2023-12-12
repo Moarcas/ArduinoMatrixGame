@@ -29,7 +29,7 @@ void changeBulletPosition() {
     if (isWall(bulletPosition)) {
         incresePlayerLife(1);
         incresePlayerPower(1);
-        gameMap[bulletPositionSet.line][bulletPosition.column] = 0;
+        gameMap[bulletPosition.line][bulletPosition.column] = 0;
         validBullet = false;
     }
 }
