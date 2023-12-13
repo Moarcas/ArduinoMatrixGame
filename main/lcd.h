@@ -5,6 +5,8 @@ void setupLcd();
 
 void lcdPrintMessage(char* text);
 
+void lcdPrintMenu(char* text);
+
 void lcdPrintBrightnessLevel(int brightnessLevel);
 
 void lcdChangeBrightnessLevel(int);

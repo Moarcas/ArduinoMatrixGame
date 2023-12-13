@@ -25,7 +25,7 @@ MenuState currentMenuState = INTRO;
 void showMenu() {
     switch (currentMenuState) {
         case START_GAME:
-            lcdPrintMessage("Start game");
+            lcdPrintMenu("Start game");
             break;
         case GAME:
             lcdShowGameInfo();
@@ -34,16 +34,16 @@ void showMenu() {
             lcdShowEndGame();
             break;
         case SETTINGS:
-            lcdPrintMessage("Settings");
+            lcdPrintMenu("Settings");
             break;
         case LCD_BRIGHTNESS:
-            lcdPrintMessage("LCD brightness");
+            lcdPrintMenu("LCD brightness");
             break;
         case MATRIX_BRIGHTNESS:
-            lcdPrintMessage("Matrix brightness");
+            lcdPrintMenu("Matrix brightness");
             break;
         case ABOUT:
-            lcdPrintMessage("About");
+            lcdPrintMenu("About");
             break;
         case SET_LCD_BRIGHTNESS:
             lcdPrintBrightnessLevel(lcdGetBrightnessLevel());
@@ -54,8 +54,6 @@ void showMenu() {
         case SHOW_ABOUT:
             lcdPrintAbout();
             break;
-        case NAME:
-            lcdPrintMessage("Change name");
     }
 }
 
@@ -76,7 +74,6 @@ void processStartGame(char action) {
         case 'p':
             currentMenuState = GAME;
             generateMap();
-            incresePlayerLife(100);
             break;
     }
 }
@@ -86,6 +83,7 @@ void processGame(char action) {
     processPlayerInfo();
     if (getPlayerLife() == 0) {
         currentMenuState = END_GAME;
+        resetPlayerInfo();
         showEndGameMatrix();
         showMenu();
     }

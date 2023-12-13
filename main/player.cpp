@@ -11,9 +11,13 @@ static unsigned long lastBlink;
 char playerOrientation = 'u';
 int playerLife = 100;
 int playerPower = 0;
+int playerPoints = 0;
+
+const byte maxLife = 100;
+const byte maxPower = 100;
 
 unsigned long lastLifeDecrement;
-const int lifeDecrementDelay = 100;
+const int lifeDecrementDelay = 1000;
 
 void generatePlayerPosition() {
     for (int i = 0; i < mapSize; i++)
@@ -51,12 +55,27 @@ void processPlayerLife() {
     }
 }
 
-void incresePlayerLife(int points) {
-    playerLife = min(100, playerLife + points);
+void resetPlayerInfo() {
+    playerLife = 100;
+    playerPoints = 0;
+    playerPower = 0;
 }
 
-void incresePlayerPower(int power) {
-    playerPower += power;
+void increasePlayerLife(int points) {
+    playerLife = min(maxLife, playerLife + points);
+}
+
+void increasePlayerPower(int power) {
+    playerPower = min(maxPower, playerPower + power);
+
+    if (playerPower == maxPower) {
+        setShotgunMode(true);
+        playerPower = 0;
+    }
+}
+
+void increasePlayerPoints(int points) {
+    playerPoints += points;
 }
 
 void processPlayerInfo() {
@@ -73,4 +92,12 @@ char getPlayerOrientation() {
 
 int getPlayerLife() {
     return playerLife;
+}
+
+int getPlayerPower() {
+    return playerPower;
+}
+
+int getPlayerPoints() {
+    return playerPoints;
 }

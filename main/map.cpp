@@ -1,4 +1,4 @@
-#include "LedControl.h" 
+#include "LedControl.h"
 #include <EEPROM.h>
 #include "map.h"
 #include "player.h"
@@ -25,7 +25,7 @@ void matrixChangeBrightnessLevel(int difference) {
     EEPROM.get(brightnessMemoryAddress, brightnessLevel);
     newBrightnessLevel = brightnessLevel + difference;
     if (newBrightnessLevel >= 1 && newBrightnessLevel <= maxLevelBrightness) {
-        EEPROM.put(brightnessMemoryAddress, newBrightnessLevel);         
+        EEPROM.put(brightnessMemoryAddress, newBrightnessLevel);
         lc.setIntensity(0, newBrightnessLevel);
     }
 }

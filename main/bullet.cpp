@@ -15,6 +15,8 @@ bool validShotgunBullet[3];
 
 char direction = 'n';
 
+bool shotgunActive;
+
 void changeBulletPosition() {
     if (!validBullet)
         return;
@@ -27,8 +29,9 @@ void changeBulletPosition() {
         return;
     }
     if (isWall(bulletPosition)) {
-        incresePlayerLife(1);
-        incresePlayerPower(1);
+        increasePlayerLife(1);
+        increasePlayerPower(10);
+        increasePlayerPoints(1);
         gameMap[bulletPosition.line][bulletPosition.column] = 0;
         validBullet = false;
     }
@@ -47,7 +50,9 @@ void changeShotgunBulletsPositions() {
             continue;
         }
         if (isWall(shotgunBulletPosition[i])) {
-            incresePlayerLife(1);
+            increasePlayerLife(1);
+            increasePlayerPower(10);
+            increasePlayerPoints(1);
             gameMap[shotgunBulletPosition[i].line][shotgunBulletPosition[i].column] = 0;
             validShotgunBullet[i] = false;
         }
@@ -78,7 +83,7 @@ bool activeShoot() {
 }
 
 
-void shoot(Position playerPosition, char playerOrientation) {
+void normalShoot(Position playerPosition, char playerOrientation) {
     if (!activeShoot()) {
         bulletPosition = playerPosition;
         validBullet = true;
@@ -87,11 +92,22 @@ void shoot(Position playerPosition, char playerOrientation) {
 }
 
 void shotgunShoot(Position playerPosition, char playerOrientation) {
-    if (!activeShoot()) {
-        for (int i = 0; i < 3; i++) {
-            shotgunBulletPosition[i] = playerPosition;
-            validShotgunBullet[i] = true;
-        }
-        direction = playerOrientation;
+    for (int i = 0; i < 3; i++) {
+        shotgunBulletPosition[i] = playerPosition;
+        validShotgunBullet[i] = true;
     }
+    direction = playerOrientation;
+}
+
+void shoot(Position playerPosition, char playerOrientation) {
+    if (!activeShoot()) {
+        if (shotgunActive)
+            shotgunShoot(playerPosition, playerOrientation);
+        else
+            normalShoot(playerPosition, playerOrientation);
+    }
+}
+
+void setShotgunMode(bool mode) {
+    shotgunActive = mode;
 }

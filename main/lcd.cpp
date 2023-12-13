@@ -49,6 +49,39 @@ byte heartCharacter[8] = {
     0b00000
 };
 
+byte swordCharacter[] = {
+    B00100,
+    B01110,
+    B01110,
+    B01110,
+    B01110,
+    B11111,
+    B00100,
+    B01110
+};
+
+byte arrowUpCharacter[] = {
+  B00000,
+  B00000,
+  B00100,
+  B01110,
+  B11111,
+  B00000,
+  B00000,
+  B00000
+};
+
+byte arrowDownCharacter[] = {
+  B00000,
+  B00000,
+  B00000,
+  B11111,
+  B01110,
+  B00100,
+  B00000,
+  B00000
+};
+
 void lcdPrintIntroMessage() {
     lcd.print("Welcome back!");
     lcd.setCursor(0, 1);
@@ -60,6 +93,9 @@ void setupLcd() {
     lcd.createChar(0, fullCharacter);
     lcd.createChar(1, emptyCharacter);
     lcd.createChar(2, heartCharacter);
+    lcd.createChar(3, swordCharacter);
+    lcd.createChar(4, arrowUpCharacter);
+    lcd.createChar(5, arrowDownCharacter);
     lcd.begin(16, 2);
     lcdPrintIntroMessage();
 }
@@ -70,7 +106,6 @@ void lcdPrintMessage(char* text) {
 }
 
 void lcdPrintBrightnessLevel(int brightnessLevel) {
-
     lcd.setCursor(0, 1);
     lcd.print('[');
     lcd.setCursor(15, 1);
@@ -113,6 +148,12 @@ void lcdShowEndGame() {
 
 void lcdShowGameInfo() {
     lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("$");
+    lcd.print(getPlayerPoints());
+    lcd.setCursor(5, 0);
+    lcd.write((byte)3);
+    lcd.print(getPlayerPower());
     lcd.setCursor(12, 0);
     lcd.write((byte)2);
     lcd.print(getPlayerLife());
@@ -124,4 +165,14 @@ void lcdPrintAbout() {
     lcd.print("git: moarcas");
     lcd.setCursor(0, 1);
     lcd.print("Name: Cosmin");
+}
+
+void lcdPrintMenu(char* text) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(text);
+    lcd.setCursor(15, 1);
+    lcd.write(byte(4));
+    lcd.setCursor(0, 1);
+    lcd.write(byte(5));
 }

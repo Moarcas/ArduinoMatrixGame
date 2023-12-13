@@ -14,10 +14,18 @@ Position getPlayerPosition();
 
 char getPlayerOrientation();
 
+void resetPlayerInfo();
+
 int getPlayerLife();
 
-void incresePlayerLife(int);
+int getPlayerPower();
 
-void incresePlayerPower(int);
+int getPlayerPoints();
+
+void increasePlayerLife(int);
+
+void increasePlayerPower(int);
+
+void increasePlayerPoints(int);
 
 #endif
