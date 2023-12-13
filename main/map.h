@@ -27,7 +27,7 @@ bool isWall(Position);
 
 void changeMiniMapPosition(Position playerPosition, char direction);
 
-void showEndGameMatrix();
+void showEndGameMatrix(bool isOnPodium);
 
 void showSettingsMatrix();
 

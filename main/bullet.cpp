@@ -31,7 +31,7 @@ void changeBulletPosition() {
     if (isWall(bulletPosition)) {
         increasePlayerLife(1);
         increasePlayerPower(10);
-        increasePlayerPoints(1);
+        increasePlayerScore(1);
         gameMap[bulletPosition.line][bulletPosition.column] = 0;
         validBullet = false;
     }
@@ -52,7 +52,7 @@ void changeShotgunBulletsPositions() {
         if (isWall(shotgunBulletPosition[i])) {
             increasePlayerLife(1);
             increasePlayerPower(10);
-            increasePlayerPoints(1);
+            increasePlayerScore(1);
             gameMap[shotgunBulletPosition[i].line][shotgunBulletPosition[i].column] = 0;
             validShotgunBullet[i] = false;
         }

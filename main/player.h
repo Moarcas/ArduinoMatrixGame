@@ -16,16 +16,18 @@ char getPlayerOrientation();
 
 void resetPlayerInfo();
 
+void savePlayerScore();
+
 int getPlayerLife();
 
 int getPlayerPower();
 
-int getPlayerPoints();
+int getPlayerScore();
 
 void increasePlayerLife(int);
 
 void increasePlayerPower(int);
 
-void increasePlayerPoints(int);
+void increasePlayerScore(int);
 
 #endif

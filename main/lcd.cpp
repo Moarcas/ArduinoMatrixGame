@@ -10,11 +10,16 @@ const int d4 = 7;
 const int d5 = 6;
 const int d6 = 5;
 const int d7 = 4;
+
 const int brightnessPin = 3;
 const int brightnessMemoryAddress = 0;
+
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 const int maxLevelBrightness = 14;
+
+unsigned long lastShift;
+const int delayShift = 500;
 
 const byte fullCharacter[8] = {
 	0b11111,
@@ -61,31 +66,41 @@ byte swordCharacter[] = {
 };
 
 byte arrowUpCharacter[] = {
-  B00000,
-  B00000,
-  B00100,
-  B01110,
-  B11111,
-  B00000,
-  B00000,
-  B00000
+    B00000,
+    B00000,
+    B00100,
+    B01110,
+    B11111,
+    B00000,
+    B00000,
+    B00000
 };
 
 byte arrowDownCharacter[] = {
-  B00000,
-  B00000,
-  B00000,
-  B11111,
-  B01110,
-  B00100,
-  B00000,
-  B00000
+    B00000,
+    B00000,
+    B00000,
+    B11111,
+    B01110,
+    B00100,
+    B00000,
+    B00000
+};
+
+byte arrowLeftCharacter[] = {
+    B00000,
+    B00000,
+    B00010,
+    B00110,
+    B01110,
+    B00110,
+    B00010,
+    B00000
 };
 
 void lcdPrintIntroMessage() {
+    lcd.setCursor(2, 0);
     lcd.print("Welcome back!");
-    lcd.setCursor(0, 1);
-    lcd.print("Press joystick to start");
 }
 
 void setupLcd() {
@@ -96,6 +111,7 @@ void setupLcd() {
     lcd.createChar(3, swordCharacter);
     lcd.createChar(4, arrowUpCharacter);
     lcd.createChar(5, arrowDownCharacter);
+    lcd.createChar(6, arrowLeftCharacter);
     lcd.begin(16, 2);
     lcdPrintIntroMessage();
 }
@@ -140,17 +156,26 @@ int lcdGetBrightnessLevel() {
     return brightnessLevel;
 }
 
-void lcdShowEndGame() {
+void lcdShowEndGameScreen1() {
     lcd.clear();
-    lcd.setCursor(4, 0);
-    lcd.print("YOU LOST");
+    lcd.setCursor(0, 0);
+    lcd.print("Congratulations!");
+    lcd.setCursor(0, 1);
+    lcd.print("Your score: ");
+    lcd.print(getPlayerScore());
+}
+
+void lcdShowEndGameScreen2() {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("End game screen 2");
 }
 
 void lcdShowGameInfo() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("$");
-    lcd.print(getPlayerPoints());
+    lcd.print(getPlayerScore());
     lcd.setCursor(5, 0);
     lcd.write((byte)3);
     lcd.print(getPlayerPower());
@@ -161,18 +186,45 @@ void lcdShowGameInfo() {
 
 void lcdPrintAbout() {
     lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("git: moarcas");
-    lcd.setCursor(0, 1);
-    lcd.print("Name: Cosmin");
+    lcd.setCursor(3, 0);
+    lcd.print("Game name: Odiseea Pixelata");
+    lcd.setCursor(3, 1);
+    lcd.print("Author name:Cosmin  github:moarcas");
 }
 
 void lcdPrintMenu(char* text) {
     lcd.clear();
-    lcd.setCursor(0, 0);
+    lcd.setCursor(8 - strlen(text) / 2, 0);
     lcd.print(text);
     lcd.setCursor(15, 1);
     lcd.write(byte(4));
     lcd.setCursor(0, 1);
     lcd.write(byte(5));
+}
+
+void lcdPrintSubmenu(char *text) {
+    lcd.clear();
+    lcd.setCursor(8 - strlen(text) / 2, 0);
+    lcd.print(text);
+    lcd.setCursor(0, 1);
+    lcd.write(byte(6));
+    lcd.setCursor(7, 1);
+    lcd.write(byte(5));
+    lcd.setCursor(15, 1);
+    lcd.write(byte(4));
+}
+
+void lcdScrollLeft() {
+    if (millis() - lastShift > delayShift) {
+        lcd.scrollDisplayLeft();
+        lastShift = millis();
+    }
+}
+
+void lcdPrintHowToPlay() {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Destroy walls before you run out of life");
+    lcd.setCursor(0, 1);
+    lcd.print("power 100= the shotgun mode is activated");
 }

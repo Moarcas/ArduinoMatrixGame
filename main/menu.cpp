@@ -3,21 +3,29 @@
 #include "menu.h"
 #include "player.h"
 #include "bullet.h"
+#include "scoreRecorder.h"
 
 enum MenuState {
     INTRO,
     START_GAME,
         GAME,
-        END_GAME,
+        END_GAME_SCREEN1,
+        END_GAME_SCREEN2,
+    HIGHSCORE,
+        SHOW_HIGHSCORE,
     SETTINGS,
         LCD_BRIGHTNESS,
             SET_LCD_BRIGHTNESS,
         MATRIX_BRIGHTNESS,
             SET_MATRIX_BRIGHTNESS,
-        NAME,
-            SET_NAME,
+        RESET_DATA,
+            RESET_LCD_BRIGHTNESS,
+            RESET_MATRIX_BIRGHTNESS,
+            RESET_HIGHSCORE,
     ABOUT,
         SHOW_ABOUT,
+    HOW_TO_PLAY,
+        SHOW_HOW_TO_PLAY,
 };
 
 MenuState currentMenuState = INTRO;
@@ -30,17 +38,32 @@ void showMenu() {
         case GAME:
             lcdShowGameInfo();
             break;
-        case END_GAME:
-            lcdShowEndGame();
+        case END_GAME_SCREEN1:
+            lcdShowEndGameScreen1();
+            break;
+        case END_GAME_SCREEN2:
+            lcdShowEndGameScreen2();
             break;
         case SETTINGS:
             lcdPrintMenu("Settings");
             break;
         case LCD_BRIGHTNESS:
-            lcdPrintMenu("LCD brightness");
+            lcdPrintSubmenu("LCD brightness");
             break;
         case MATRIX_BRIGHTNESS:
-            lcdPrintMenu("Matrix brightness");
+            lcdPrintSubmenu("Map brightness");
+            break;
+        case RESET_DATA:
+            lcdPrintSubmenu("Reset data");
+            break;
+        case RESET_LCD_BRIGHTNESS:
+            lcdPrintSubmenu("Reset lcd b.");
+            break;
+        case RESET_MATRIX_BIRGHTNESS:
+            lcdPrintSubmenu("Reset matrix b.");
+            break;
+        case RESET_HIGHSCORE:
+            lcdPrintSubmenu("Reset highscore");
             break;
         case ABOUT:
             lcdPrintMenu("About");
@@ -54,6 +77,12 @@ void showMenu() {
         case SHOW_ABOUT:
             lcdPrintAbout();
             break;
+        case HOW_TO_PLAY:
+            lcdPrintMenu("How to play");
+            break;
+        case SHOW_HOW_TO_PLAY:
+            lcdPrintHowToPlay();
+            break;
     }
 }
 
@@ -65,7 +94,7 @@ void processIntro(char action) {
 void processStartGame(char action) {
     switch (action) {
         case 'u':
-            currentMenuState = ABOUT;
+            currentMenuState = HOW_TO_PLAY;
             break;
         case 'd':
             currentMenuState = SETTINGS;
@@ -74,6 +103,7 @@ void processStartGame(char action) {
         case 'p':
             currentMenuState = GAME;
             generateMap();
+            resetPlayerInfo();
             break;
     }
 }
@@ -82,9 +112,8 @@ void processGame(char action) {
     showMap();
     processPlayerInfo();
     if (getPlayerLife() == 0) {
-        currentMenuState = END_GAME;
-        resetPlayerInfo();
-        showEndGameMatrix();
+        currentMenuState = END_GAME_SCREEN1;
+        savePlayerScore();
         showMenu();
     }
     if (action == 'l' || action == 'r' || action == 'u' || action == 'd') {
@@ -97,10 +126,14 @@ void processGame(char action) {
     }
 }
 
-void processEndGame(char action) {
+void processEndGameScreen1(char action) {
+    if (action == 'p')
+        currentMenuState = END_GAME_SCREEN2;
+}
+
+void processEndGameScreen2(char action) {
     if (action == 'p')
         currentMenuState = START_GAME;
-
 }
 
 void processSettings(char action) {
@@ -123,7 +156,7 @@ void processAbout(char action) {
             currentMenuState = SETTINGS;
             break;
         case 'd':
-            currentMenuState = START_GAME;
+            currentMenuState = HOW_TO_PLAY;
             break;
         case 'p':
             currentMenuState = SHOW_ABOUT;
@@ -134,6 +167,8 @@ void processAbout(char action) {
 void processLcdBrightness(char action) {
     switch (action) {
         case 'u':
+            currentMenuState = RESET_DATA;
+            break;
         case 'd':
             currentMenuState = MATRIX_BRIGHTNESS;
             break;
@@ -163,6 +198,25 @@ void processSetLcdBrightness(char action) {
 void processMatrixBrightness(char action) {
     switch (action) {
         case 'u':
+            currentMenuState = LCD_BRIGHTNESS;
+            break;
+        case 'd':
+            currentMenuState = RESET_DATA;
+            break;
+        case 'l':
+            currentMenuState = SETTINGS;
+            break;
+        case 'p':
+            currentMenuState = SET_MATRIX_BRIGHTNESS;
+            break;
+    }
+}
+
+void processResetData(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = MATRIX_BRIGHTNESS;
+            break;
         case 'd':
             currentMenuState = LCD_BRIGHTNESS;
             break;
@@ -170,7 +224,60 @@ void processMatrixBrightness(char action) {
             currentMenuState = SETTINGS;
             break;
         case 'p':
-            currentMenuState = SET_MATRIX_BRIGHTNESS;
+            currentMenuState = RESET_LCD_BRIGHTNESS;
+    }
+}
+
+void processResetLcdBrightness(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = RESET_HIGHSCORE;
+            break;
+        case 'd':
+            currentMenuState = RESET_MATRIX_BIRGHTNESS;
+            break;
+        case 'l':
+            currentMenuState = RESET_DATA;
+            break;
+        case 'p':
+            // TODO
+            currentMenuState = RESET_DATA;
+            break;
+    }
+}
+
+void processResetMatrixBrightness(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = RESET_LCD_BRIGHTNESS;
+            break;
+        case 'd':
+            currentMenuState = RESET_HIGHSCORE;
+            break;
+        case 'l':
+            currentMenuState = RESET_DATA;
+            break;
+        case 'p':
+            // TODO
+            currentMenuState = RESET_DATA;
+            break;
+    }
+}
+
+void processResetHighscore(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = RESET_MATRIX_BIRGHTNESS;
+            break;
+        case 'd':
+            currentMenuState = RESET_LCD_BRIGHTNESS;
+            break;
+        case 'l':
+            currentMenuState = RESET_DATA;
+            break;
+        case 'p':
+            resetHighscore();
+            currentMenuState = RESET_DATA;
             break;
     }
 }
@@ -190,8 +297,29 @@ void processSetMatrixBrightness(char action) {
 }
 
 void processShowAbout(char action) {
+    lcdScrollLeft();
     if (action == 'p')
         currentMenuState = ABOUT;
+}
+
+void processHowToPlay(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = ABOUT;
+            break;
+        case 'd':
+            currentMenuState = START_GAME;
+            break;
+        case 'p':
+            currentMenuState = SHOW_HOW_TO_PLAY;
+            break;
+    }
+}
+
+void processShowHowToPlay(char action) {
+    lcdScrollLeft();
+    if (action == 'p')
+        currentMenuState = HOW_TO_PLAY;
 }
 
 void processMenuState(char action) {
@@ -206,8 +334,12 @@ void processMenuState(char action) {
         case GAME:
             processGame(action);
             break;
-        case END_GAME:
-            processEndGame(action);
+        case END_GAME_SCREEN1:
+            processEndGameScreen1(action);
+            showEndGameMatrix(isOnPodium(getPlayerScore()));
+            break;
+        case END_GAME_SCREEN2:
+            processEndGameScreen2(action);
             break;
         case SETTINGS:
             processSettings(action);
@@ -229,8 +361,27 @@ void processMenuState(char action) {
         case SET_MATRIX_BRIGHTNESS:
             processSetMatrixBrightness(action);
             break;
+        case RESET_DATA:
+            processResetData(action);
+            break;
+        case RESET_LCD_BRIGHTNESS:
+            processResetLcdBrightness(action);
+            break;
+        case RESET_MATRIX_BIRGHTNESS:
+            processResetMatrixBrightness(action);
+            break;
+        case RESET_HIGHSCORE:
+            processResetHighscore(action);
+            break;
         case SHOW_ABOUT:
             processShowAbout(action);
+            break;
+        case HOW_TO_PLAY:
+            showAboutMatrix();
+            processHowToPlay(action);
+            break;
+        case SHOW_HOW_TO_PLAY:
+            processShowHowToPlay(action);
             break;
     }
     if (action != 'n' || currentMenuState == GAME)

@@ -7,18 +7,17 @@
 char joystickAction;
 
 void setup() {
-    Serial.begin(9600);
+  Serial.begin(9600);
 
-    setupMatrix();
-    setupJoystick();
-    setupLcd();
+  setupMatrix();
+  setupJoystick();
+  setupLcd();
 
-    delay(1000);
+  delay(1000);
 }
 
 void loop() {
-    joystickAction = getJoystickAction();
+  joystickAction = getJoystickAction();
 
-    processMenuState(joystickAction);
+  processMenuState(joystickAction);
 }
-

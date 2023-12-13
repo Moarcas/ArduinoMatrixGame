@@ -99,18 +99,32 @@ void showMatrix(const bool matrix[][matrixSize]) {
     }
 }
 
-void showEndGameMatrix() {
-    const bool matrix[matrixSize][matrixSize] = {
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 1, 1, 0, 0, 1, 1, 0 },
-        { 0, 1, 1, 0, 0, 1, 1, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 1, 1, 1, 1, 0, 0 },
-        { 0, 1, 0, 0, 0, 0, 1, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 }
-    };
-    showMatrix(matrix);
+void showEndGameMatrix(bool isOnPodium) {
+    if (!isOnPodium) {
+        const bool matrix[matrixSize][matrixSize] = {
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 1, 1, 0, 0, 1, 1, 0 },
+            { 0, 1, 1, 0, 0, 1, 1, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 1, 1, 1, 1, 0, 0 },
+            { 0, 1, 0, 0, 0, 0, 1, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 }
+        };
+        showMatrix(matrix);
+    } else {
+        const bool matrix[matrixSize][matrixSize] = {
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 1, 1, 0, 0, 1, 1, 0 },
+            { 0, 1, 1, 0, 0, 1, 1, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 1, 0, 0, 0, 0, 1, 0 },
+            { 0, 0, 1, 1, 1, 1, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0 }
+        };
+        showMatrix(matrix);
+    }
 }
 
 

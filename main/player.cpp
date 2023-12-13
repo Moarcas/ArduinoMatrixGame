@@ -2,6 +2,7 @@
 #include "map.h"
 #include "bullet.h"
 #include "player.h"
+#include "scoreRecorder.h"
 
 Position playerPosition;
 
@@ -11,13 +12,13 @@ static unsigned long lastBlink;
 char playerOrientation = 'u';
 int playerLife = 100;
 int playerPower = 0;
-int playerPoints = 0;
+int playerScore = 0;
 
 const byte maxLife = 100;
 const byte maxPower = 100;
 
 unsigned long lastLifeDecrement;
-const int lifeDecrementDelay = 1000;
+const int lifeDecrementDelay = 10;
 
 void generatePlayerPosition() {
     for (int i = 0; i < mapSize; i++)
@@ -57,8 +58,15 @@ void processPlayerLife() {
 
 void resetPlayerInfo() {
     playerLife = 100;
-    playerPoints = 0;
+    playerScore = 0;
     playerPower = 0;
+}
+
+void savePlayerScore() {
+    if (isOnPodium(playerScore)) {
+        char name[10] = "gigi";
+        saveScoreOnEEPROM(playerScore, name);
+    }
 }
 
 void increasePlayerLife(int points) {
@@ -74,8 +82,8 @@ void increasePlayerPower(int power) {
     }
 }
 
-void increasePlayerPoints(int points) {
-    playerPoints += points;
+void increasePlayerScore(int points) {
+    playerScore += points;
 }
 
 void processPlayerInfo() {
@@ -98,6 +106,6 @@ int getPlayerPower() {
     return playerPower;
 }
 
-int getPlayerPoints() {
-    return playerPoints;
+int getPlayerScore() {
+    return playerScore;
 }
