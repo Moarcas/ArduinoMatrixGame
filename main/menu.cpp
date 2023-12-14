@@ -11,6 +11,7 @@ enum MenuState {
         GAME,
         END_GAME_SCREEN1,
         END_GAME_SCREEN2,
+        END_GAME_WRITE_NAME,
     HIGHSCORE,
         SHOW_HIGHSCORE,
     SETTINGS,
@@ -43,6 +44,15 @@ void showMenu() {
             break;
         case END_GAME_SCREEN2:
             lcdShowEndGameScreen2();
+            break;
+        case END_GAME_WRITE_NAME:
+            lcdShowEndGameWriteName();
+            break;
+        case HIGHSCORE:
+            lcdPrintMenu("Highscore");
+            break;
+        case SHOW_HIGHSCORE:
+            showHighscore();
             break;
         case SETTINGS:
             lcdPrintMenu("Settings");
@@ -97,8 +107,7 @@ void processStartGame(char action) {
             currentMenuState = HOW_TO_PLAY;
             break;
         case 'd':
-            currentMenuState = SETTINGS;
-            showSettingsMatrix();
+            currentMenuState = HIGHSCORE;
             break;
         case 'p':
             currentMenuState = GAME;
@@ -113,7 +122,6 @@ void processGame(char action) {
     processPlayerInfo();
     if (getPlayerLife() == 0) {
         currentMenuState = END_GAME_SCREEN1;
-        savePlayerScore();
         showMenu();
     }
     if (action == 'l' || action == 'r' || action == 'u' || action == 'd') {
@@ -132,14 +140,69 @@ void processEndGameScreen1(char action) {
 }
 
 void processEndGameScreen2(char action) {
-    if (action == 'p')
-        currentMenuState = START_GAME;
+    if (action == 'p') {
+        if (isOnPodium(getPlayerScore())) {
+            currentMenuState = END_GAME_WRITE_NAME;
+        }
+        else {
+            currentMenuState = START_GAME;
+        }
+    }
+}
+
+void processEndGameWriteName(char action) {
+    switch (action) {
+        case 'l':
+            playerNameDeleteLastChar();
+            break;
+        case 'r':
+            playerNameAddChar();
+            break;
+        case 'u':
+            playerNameNextChar();
+            break;
+        case 'd':
+            playerNamePrevChar();
+            break;
+        case 'p':
+            saveScoreOnEEPROM(getPlayerScore(), getPlayerName());
+            currentMenuState = START_GAME;
+            break;
+    }
+}
+
+void processHighscore(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = START_GAME;
+            break;
+        case 'd':
+            currentMenuState = SETTINGS;
+            break;
+        case 'p':
+            currentMenuState = SHOW_HIGHSCORE;
+            break;
+    }
+}
+
+void processShowHighscore(char action) {
+    switch (action) {
+        case 'u':
+            goToPrevHighscore();
+            break;
+        case 'd':
+            goToNextHighscore();
+            break;
+        case 'p':
+            currentMenuState = HIGHSCORE;
+            break;
+    }
 }
 
 void processSettings(char action) {
     switch (action) {
         case 'u':
-            currentMenuState = START_GAME;
+            currentMenuState = HIGHSCORE;
             break;
         case 'd':
             currentMenuState = ABOUT;
@@ -240,7 +303,7 @@ void processResetLcdBrightness(char action) {
             currentMenuState = RESET_DATA;
             break;
         case 'p':
-            // TODO
+            lcdResetBrightness();
             currentMenuState = RESET_DATA;
             break;
     }
@@ -258,7 +321,7 @@ void processResetMatrixBrightness(char action) {
             currentMenuState = RESET_DATA;
             break;
         case 'p':
-            // TODO
+            matrixResetBrightness();
             currentMenuState = RESET_DATA;
             break;
     }
@@ -340,6 +403,16 @@ void processMenuState(char action) {
             break;
         case END_GAME_SCREEN2:
             processEndGameScreen2(action);
+            break;
+        case END_GAME_WRITE_NAME:
+            processEndGameWriteName(action);
+            break;
+        case HIGHSCORE:
+            processHighscore(action);
+            showHighscoreMatrix();
+            break;
+        case SHOW_HIGHSCORE:
+            processShowHighscore(action);
             break;
         case SETTINGS:
             processSettings(action);

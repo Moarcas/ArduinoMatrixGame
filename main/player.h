@@ -1,6 +1,7 @@
 #ifndef PLAYER.H
 #define PLAYER.H
 #include "map.h"
+#include "Arduino.h"
 
 void generatePlayerPosition();
 
@@ -16,18 +17,26 @@ char getPlayerOrientation();
 
 void resetPlayerInfo();
 
-void savePlayerScore();
-
 int getPlayerLife();
 
 int getPlayerPower();
 
 int getPlayerScore();
 
+String getPlayerName();
+
 void increasePlayerLife(int);
 
 void increasePlayerPower(int);
 
 void increasePlayerScore(int);
+
+void playerNameDeleteLastChar();
+
+void playerNameNextChar();
+
+void playerNamePrevChar();
+
+void playerNameAddChar();
 
 #endif

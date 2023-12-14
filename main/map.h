@@ -15,6 +15,8 @@ void setupMatrix();
 
 void matrixChangeBrightnessLevel(int);
 
+void matrixResetBrightness();
+
 int matrixGetBrightnessLevel();
 
 void generateMap();
@@ -34,5 +36,7 @@ void showSettingsMatrix();
 void showGameMatrix();
 
 void showAboutMatrix();
+
+void showHighscoreMatrix();
 
 #endif

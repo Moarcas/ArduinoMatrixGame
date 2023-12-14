@@ -8,4 +8,6 @@ void shoot(Position playerPosition, char direction);
 
 void setShotgunMode(bool);
 
+void resetBullets();
+
 #endif

@@ -1,5 +1,4 @@
 #include <LiquidCrystal.h>
-#include "Arduino.h"
 #include <EEPROM.h>
 #include "lcd.h"
 #include "player.h"
@@ -128,11 +127,11 @@ void lcdPrintBrightnessLevel(int brightnessLevel) {
     lcd.print(']');
     for (int i = 1; i <= brightnessLevel; i++) {
         lcd.setCursor(i, 1);
-        lcd.write(byte(0));
+        lcd.write((byte)0);
     }
     for (int i = brightnessLevel + 1; i < 15; i++) {
         lcd.setCursor(i, 1);
-        lcd.write(byte(1));
+        lcd.write((byte)1);
     }
 }
 
@@ -148,6 +147,12 @@ void lcdChangeBrightnessLevel(int difference) {
         EEPROM.put(brightnessMemoryAddress, newBrightnessLevel);
         analogWrite(brightnessPin, brightnessValueFromLevel(newBrightnessLevel));
     }
+}
+
+void lcdResetBrightness() {
+    EEPROM.put(brightnessMemoryAddress, int(maxLevelBrightness / 2));
+    analogWrite(brightnessPin, brightnessValueFromLevel(int(maxLevelBrightness /2)));
+
 }
 
 int lcdGetBrightnessLevel() {
@@ -169,6 +174,15 @@ void lcdShowEndGameScreen2() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("End game screen 2");
+}
+
+void lcdShowEndGameWriteName() {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Enter your name:");
+    lcd.setCursor(0, 1);
+    lcd.print(getPlayerName());
+    lcd.write((byte)6);
 }
 
 void lcdShowGameInfo() {
@@ -197,9 +211,9 @@ void lcdPrintMenu(char* text) {
     lcd.setCursor(8 - strlen(text) / 2, 0);
     lcd.print(text);
     lcd.setCursor(15, 1);
-    lcd.write(byte(4));
+    lcd.write((byte)4);
     lcd.setCursor(0, 1);
-    lcd.write(byte(5));
+    lcd.write((byte)5);
 }
 
 void lcdPrintSubmenu(char *text) {
@@ -207,11 +221,11 @@ void lcdPrintSubmenu(char *text) {
     lcd.setCursor(8 - strlen(text) / 2, 0);
     lcd.print(text);
     lcd.setCursor(0, 1);
-    lcd.write(byte(6));
+    lcd.write((byte)6);
     lcd.setCursor(7, 1);
-    lcd.write(byte(5));
+    lcd.write((byte)5);
     lcd.setCursor(15, 1);
-    lcd.write(byte(4));
+    lcd.write((byte)4);
 }
 
 void lcdScrollLeft() {
@@ -227,4 +241,17 @@ void lcdPrintHowToPlay() {
     lcd.print("Destroy walls before you run out of life");
     lcd.setCursor(0, 1);
     lcd.print("power 100= the shotgun mode is activated");
+}
+
+void lcdPrintHighscore(int place, int score, String name) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Name: ");
+    lcd.print(name);
+    lcd.setCursor(0, 1);
+    lcd.print("Place ");
+    lcd.print(place);
+    lcd.setCursor(9, 1);
+    lcd.print("Score ");
+    lcd.print(score);
 }

@@ -30,6 +30,11 @@ void matrixChangeBrightnessLevel(int difference) {
     }
 }
 
+void matrixResetBrightness() {
+    EEPROM.put(brightnessMemoryAddress, int(maxLevelBrightness / 2));
+    lc.setIntensity(0, int(maxLevelBrightness / 2));
+}
+
 int matrixGetBrightnessLevel() {
     int brightnessLevel;
     EEPROM.get(brightnessMemoryAddress, brightnessLevel);
@@ -166,6 +171,20 @@ void showAboutMatrix() {
         { 0, 0, 0, 1, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 1, 0, 0, 0, 0 },
+    };
+    showMatrix(matrix);
+}
+
+void showHighscoreMatrix() {
+    const bool matrix[matrixSize][matrixSize] = {
+        { 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 0, 1, 1, 1, 1, 1, 1, 0 },
+        { 0, 1, 1, 1, 1, 1, 1, 0 },
+        { 0, 0, 1, 1, 1, 1, 0, 0 },
+        { 0, 0, 0, 1, 1, 0, 0, 0 },
+        { 0, 0, 0, 1, 1, 0, 0, 0 },
+        { 0, 0, 1, 1, 1, 1, 0, 0 },
+        { 0, 0, 1, 1, 1, 1, 0, 0 },
     };
     showMatrix(matrix);
 }

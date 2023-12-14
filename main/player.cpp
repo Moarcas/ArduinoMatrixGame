@@ -20,6 +20,9 @@ const byte maxPower = 100;
 unsigned long lastLifeDecrement;
 const int lifeDecrementDelay = 10;
 
+const int nameMaxLength = 11; // name + '\0'
+String name = "a";
+
 void generatePlayerPosition() {
     for (int i = 0; i < mapSize; i++)
         for (int j = 0; j < mapSize; j++)
@@ -60,13 +63,8 @@ void resetPlayerInfo() {
     playerLife = 100;
     playerScore = 0;
     playerPower = 0;
-}
-
-void savePlayerScore() {
-    if (isOnPodium(playerScore)) {
-        char name[10] = "gigi";
-        saveScoreOnEEPROM(playerScore, name);
-    }
+    name = "a";
+    resetBullets();
 }
 
 void increasePlayerLife(int points) {
@@ -108,4 +106,36 @@ int getPlayerPower() {
 
 int getPlayerScore() {
     return playerScore;
+}
+
+String getPlayerName() {
+    return name;
+}
+
+void playerNameDeleteLastChar() {
+    if (name.length() == 1)
+        return;
+    name.remove(name.length() - 1);
+}
+
+void playerNameNextChar() {
+    unsigned int indexCurrentChar = name.length() - 1;
+    if (name[indexCurrentChar] == 'z')
+        name[indexCurrentChar] = 'a';
+    else
+        name[indexCurrentChar] += 1;
+}
+
+void playerNamePrevChar() {
+    unsigned int indexCurrentChar = name.length() - 1;
+    if (name[indexCurrentChar] == 'a')
+        name[indexCurrentChar] = 'z';
+    else
+        name[indexCurrentChar] -= 1;
+}
+
+void playerNameAddChar() {
+    if (name.length() + 1 == nameMaxLength)
+        return;
+    name += "a";
 }

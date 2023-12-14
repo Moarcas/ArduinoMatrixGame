@@ -111,3 +111,10 @@ void shoot(Position playerPosition, char playerOrientation) {
 void setShotgunMode(bool mode) {
     shotgunActive = mode;
 }
+
+void resetBullets() {
+    validBullet = false;
+    for (int i = 0; i < 3; i++)
+        validShotgunBullet[i] = false;
+    shotgunActive = false;
+}
