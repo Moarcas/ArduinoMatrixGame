@@ -6,8 +6,10 @@ void showBullets();
 
 void shoot(Position playerPosition, char direction);
 
-void setShotgunMode(bool);
+void activateShotgunMode();
 
 void resetBullets();
+
+int getNumberShotgunShoots();
 
 #endif

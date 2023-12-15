@@ -5,8 +5,6 @@
 
 void setupLcd();
 
-void lcdPrintMessage(char* text);
-
 void lcdPrintMenu(char* text);
 
 void lcdPrintSubmenu(char* text);

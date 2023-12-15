@@ -4,6 +4,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "scoreRecorder.h"
+#include "sound.h"
 
 enum MenuState {
     INTRO,
@@ -19,6 +20,9 @@ enum MenuState {
             SET_LCD_BRIGHTNESS,
         MATRIX_BRIGHTNESS,
             SET_MATRIX_BRIGHTNESS,
+        SET_SOUND,
+            SOUND_ON,
+            SOUND_OFF,
         RESET_DATA,
             RESET_LCD_BRIGHTNESS,
             RESET_MATRIX_BIRGHTNESS,
@@ -63,6 +67,15 @@ void showMenu() {
         case MATRIX_BRIGHTNESS:
             lcdPrintSubmenu("Map brightness");
             break;
+        case SET_SOUND:
+            lcdPrintSubmenu("Sound ON/OFF");
+            break;
+        case SOUND_ON:
+            lcdPrintSubmenu("Turn sound ON");
+            break;
+        case SOUND_OFF:
+            lcdPrintSubmenu("Turn sound OFF");
+            break;
         case RESET_DATA:
             lcdPrintSubmenu("Reset data");
             break;
@@ -105,12 +118,15 @@ void processStartGame(char action) {
     switch (action) {
         case 'u':
             currentMenuState = HOW_TO_PLAY;
+            menuSound();
             break;
         case 'd':
             currentMenuState = HIGHSCORE;
+            menuSound();
             break;
         case 'p':
             currentMenuState = GAME;
+            selectionSound();
             generateMap();
             resetPlayerInfo();
             break;
@@ -135,8 +151,10 @@ void processGame(char action) {
 }
 
 void processEndGameScreen1(char action) {
-    if (action == 'p')
+    if (action == 'p') {
         currentMenuState = END_GAME_SCREEN2;
+        selectionSound();
+    }
 }
 
 void processEndGameScreen2(char action) {
@@ -147,6 +165,7 @@ void processEndGameScreen2(char action) {
         else {
             currentMenuState = START_GAME;
         }
+        selectionSound();
     }
 }
 
@@ -165,8 +184,9 @@ void processEndGameWriteName(char action) {
             playerNamePrevChar();
             break;
         case 'p':
-            saveScoreOnEEPROM(getPlayerScore(), getPlayerName());
+            saveScore(getPlayerScore(), getPlayerName());
             currentMenuState = START_GAME;
+            selectionSound();
             break;
     }
 }
@@ -175,12 +195,15 @@ void processHighscore(char action) {
     switch (action) {
         case 'u':
             currentMenuState = START_GAME;
+            menuSound();
             break;
         case 'd':
             currentMenuState = SETTINGS;
+            menuSound();
             break;
         case 'p':
             currentMenuState = SHOW_HIGHSCORE;
+            selectionSound();
             break;
     }
 }
@@ -203,12 +226,15 @@ void processSettings(char action) {
     switch (action) {
         case 'u':
             currentMenuState = HIGHSCORE;
+            menuSound();
             break;
         case 'd':
             currentMenuState = ABOUT;
+            menuSound();
             break;
         case 'p':
             currentMenuState = LCD_BRIGHTNESS;
+            selectionSound();
             break;
     }
 }
@@ -217,12 +243,15 @@ void processAbout(char action) {
     switch (action) {
         case 'u':
             currentMenuState = SETTINGS;
+            menuSound();
             break;
         case 'd':
             currentMenuState = HOW_TO_PLAY;
+            menuSound();
             break;
         case 'p':
             currentMenuState = SHOW_ABOUT;
+            selectionSound();
             break;
     }
 }
@@ -231,15 +260,19 @@ void processLcdBrightness(char action) {
     switch (action) {
         case 'u':
             currentMenuState = RESET_DATA;
+            menuSound();
             break;
         case 'd':
             currentMenuState = MATRIX_BRIGHTNESS;
+            menuSound();
             break;
         case 'l':
             currentMenuState = SETTINGS;
+            menuSound();
             break;
         case 'p':
             currentMenuState = SET_LCD_BRIGHTNESS;
+            selectionSound();
             break;
     }
 }
@@ -254,6 +287,7 @@ void processSetLcdBrightness(char action) {
             break;
         case 'p':
             currentMenuState = LCD_BRIGHTNESS;
+            selectionSound();
             break;
     }
 }
@@ -262,32 +296,100 @@ void processMatrixBrightness(char action) {
     switch (action) {
         case 'u':
             currentMenuState = LCD_BRIGHTNESS;
+            menuSound();
             break;
         case 'd':
-            currentMenuState = RESET_DATA;
+            currentMenuState = SET_SOUND;
+            menuSound();
             break;
         case 'l':
             currentMenuState = SETTINGS;
+            menuSound();
             break;
         case 'p':
             currentMenuState = SET_MATRIX_BRIGHTNESS;
+            selectionSound();
             break;
+    }
+}
+
+void processSound(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = MATRIX_BRIGHTNESS;
+            menuSound();
+            break;
+        case 'd':
+            currentMenuState = RESET_DATA;
+            menuSound();
+            break;
+        case 'l':
+            currentMenuState = SETTINGS;
+            menuSound();
+            break;
+        case 'p':
+            currentMenuState = SOUND_ON;
+            selectionSound();
+            break;
+    }
+}
+
+void processSoundOn(char action) {
+    switch (action) {
+        case 'u':
+        case 'd':
+            currentMenuState = SOUND_OFF;
+            menuSound();
+            break;
+        case 'l':
+            currentMenuState = SET_SOUND;
+            menuSound();
+            break;
+        case 'p':
+            selectionSound();
+            currentMenuState = SET_SOUND;
+            changeSilentMode(false);
+            break;
+    }
+}
+
+void processSoundOff(char action) {
+    switch (action) {
+        case 'u':
+        case 'd':
+            currentMenuState = SOUND_ON;
+            menuSound();
+            break;
+        case 'l':
+            currentMenuState = SET_SOUND;
+            menuSound();
+            break;
+        case 'p':
+            selectionSound();
+            currentMenuState = SET_SOUND;
+            changeSilentMode(true);
+            break;
+
     }
 }
 
 void processResetData(char action) {
     switch (action) {
         case 'u':
-            currentMenuState = MATRIX_BRIGHTNESS;
+            currentMenuState = SET_SOUND;
+            menuSound();
             break;
         case 'd':
             currentMenuState = LCD_BRIGHTNESS;
+            menuSound();
             break;
         case 'l':
             currentMenuState = SETTINGS;
+            menuSound();
             break;
         case 'p':
             currentMenuState = RESET_LCD_BRIGHTNESS;
+            selectionSound();
     }
 }
 
@@ -295,16 +397,20 @@ void processResetLcdBrightness(char action) {
     switch (action) {
         case 'u':
             currentMenuState = RESET_HIGHSCORE;
+            menuSound();
             break;
         case 'd':
             currentMenuState = RESET_MATRIX_BIRGHTNESS;
+            menuSound();
             break;
         case 'l':
             currentMenuState = RESET_DATA;
+            menuSound();
             break;
         case 'p':
             lcdResetBrightness();
             currentMenuState = RESET_DATA;
+            selectionSound();
             break;
     }
 }
@@ -313,16 +419,20 @@ void processResetMatrixBrightness(char action) {
     switch (action) {
         case 'u':
             currentMenuState = RESET_LCD_BRIGHTNESS;
+            menuSound();
             break;
         case 'd':
             currentMenuState = RESET_HIGHSCORE;
+            menuSound();
             break;
         case 'l':
             currentMenuState = RESET_DATA;
+            menuSound();
             break;
         case 'p':
             matrixResetBrightness();
             currentMenuState = RESET_DATA;
+            selectionSound();
             break;
     }
 }
@@ -331,16 +441,20 @@ void processResetHighscore(char action) {
     switch (action) {
         case 'u':
             currentMenuState = RESET_MATRIX_BIRGHTNESS;
+            menuSound();
             break;
         case 'd':
             currentMenuState = RESET_LCD_BRIGHTNESS;
+            menuSound();
             break;
         case 'l':
             currentMenuState = RESET_DATA;
+            menuSound();
             break;
         case 'p':
             resetHighscore();
             currentMenuState = RESET_DATA;
+            selectionSound();
             break;
     }
 }
@@ -355,6 +469,7 @@ void processSetMatrixBrightness(char action) {
             break;
         case 'p':
             currentMenuState = MATRIX_BRIGHTNESS;
+            selectionSound();
             break;
     }
 }
@@ -369,12 +484,15 @@ void processHowToPlay(char action) {
     switch (action) {
         case 'u':
             currentMenuState = ABOUT;
+            menuSound();
             break;
         case 'd':
             currentMenuState = START_GAME;
+            menuSound();
             break;
         case 'p':
             currentMenuState = SHOW_HOW_TO_PLAY;
+            selectionSound();
             break;
     }
 }
@@ -433,6 +551,15 @@ void processMenuState(char action) {
             break;
         case SET_MATRIX_BRIGHTNESS:
             processSetMatrixBrightness(action);
+            break;
+        case SET_SOUND:
+            processSound(action);
+            break;
+        case SOUND_ON:
+            processSoundOn(action);
+            break;
+        case SOUND_OFF:
+            processSoundOff(action);
             break;
         case RESET_DATA:
             processResetData(action);

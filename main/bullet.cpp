@@ -1,6 +1,7 @@
 #include "bullet.h"
 #include "player.h"
 #include "Arduino.h"
+#include "sound.h"
 
 const int blinkDelay = 30;
 static unsigned long lastBlink;
@@ -15,7 +16,7 @@ bool validShotgunBullet[3];
 
 char direction = 'n';
 
-bool shotgunActive;
+int numberShotgunShoots = 3;
 
 void changeBulletPosition() {
     if (!validBullet)
@@ -29,9 +30,9 @@ void changeBulletPosition() {
         return;
     }
     if (isWall(bulletPosition)) {
-        increasePlayerLife(1);
-        increasePlayerPower(10);
-        increasePlayerScore(1);
+        increasePlayerLife(3);
+        increasePlayerPower(1);
+        increasePlayerScore(5);
         gameMap[bulletPosition.line][bulletPosition.column] = 0;
         validBullet = false;
     }
@@ -51,7 +52,7 @@ void changeShotgunBulletsPositions() {
         }
         if (isWall(shotgunBulletPosition[i])) {
             increasePlayerLife(1);
-            increasePlayerPower(10);
+            increasePlayerPower(1);
             increasePlayerScore(1);
             gameMap[shotgunBulletPosition[i].line][shotgunBulletPosition[i].column] = 0;
             validShotgunBullet[i] = false;
@@ -101,20 +102,29 @@ void shotgunShoot(Position playerPosition, char playerOrientation) {
 
 void shoot(Position playerPosition, char playerOrientation) {
     if (!activeShoot()) {
-        if (shotgunActive)
+        if (numberShotgunShoots) {
             shotgunShoot(playerPosition, playerOrientation);
-        else
+            shotgunShootSound();
+            numberShotgunShoots--;
+        }
+        else {
             normalShoot(playerPosition, playerOrientation);
+            shootSound();
+        }
     }
 }
 
-void setShotgunMode(bool mode) {
-    shotgunActive = mode;
+void activateShotgunMode() {
+    numberShotgunShoots = 3;
 }
 
 void resetBullets() {
     validBullet = false;
     for (int i = 0; i < 3; i++)
         validShotgunBullet[i] = false;
-    shotgunActive = false;
+    numberShotgunShoots = 0;
+}
+
+int getNumberShotgunShoots() {
+    return numberShotgunShoots;
 }

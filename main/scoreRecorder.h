@@ -4,7 +4,9 @@
 
 bool isOnPodium(int score);
 
-void saveScoreOnEEPROM(int score, String name);
+void saveScore(int score, String name);
+
+int getScorePosition(int score);
 
 void resetHighscore();
 

@@ -53,7 +53,7 @@ int getScorePosition(int score) {
     return position;
 }
 
-void saveScoreOnEEPROM(int score, String name) {
+void saveScore(int score, String name) {
     int position = getScorePosition(score);
     Serial.println(position);
 

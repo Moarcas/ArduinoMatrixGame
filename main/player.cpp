@@ -14,11 +14,13 @@ int playerLife = 100;
 int playerPower = 0;
 int playerScore = 0;
 
+int level = 1;
+
 const byte maxLife = 100;
-const byte maxPower = 100;
+const byte maxPower = 5;
 
 unsigned long lastLifeDecrement;
-const int lifeDecrementDelay = 10;
+const int lifeDecrementDelay = 1000;
 
 const int nameMaxLength = 11; // name + '\0'
 String name = "a";
@@ -63,6 +65,7 @@ void resetPlayerInfo() {
     playerLife = 100;
     playerScore = 0;
     playerPower = 0;
+    level = 1;
     name = "a";
     resetBullets();
 }
@@ -75,7 +78,7 @@ void increasePlayerPower(int power) {
     playerPower = min(maxPower, playerPower + power);
 
     if (playerPower == maxPower) {
-        setShotgunMode(true);
+        activateShotgunMode();
         playerPower = 0;
     }
 }
@@ -138,4 +141,12 @@ void playerNameAddChar() {
     if (name.length() + 1 == nameMaxLength)
         return;
     name += "a";
+}
+
+int getLevel() {
+    return level;
+}
+
+void increseLevel() {
+    level++;
 }

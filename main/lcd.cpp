@@ -2,16 +2,18 @@
 #include <EEPROM.h>
 #include "lcd.h"
 #include "player.h"
+#include "scoreRecorder.h"
+#include "bullet.h"
 
 const int rs = 9;
 const int en = 8;
 const int d4 = 7;
 const int d5 = 6;
-const int d6 = 5;
+const int d6 = 3;
 const int d7 = 4;
 
-const int brightnessPin = 3;
-const int brightnessMemoryAddress = 0;
+const int brightnessPin = 5;
+const int brightnessMemoryAddress = 4;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
@@ -21,14 +23,14 @@ unsigned long lastShift;
 const int delayShift = 500;
 
 const byte fullCharacter[8] = {
+	0b00000,
+	0b00000,
 	0b11111,
 	0b11111,
 	0b11111,
 	0b11111,
-	0b11111,
-	0b11111,
-	0b11111,
-	0b11111
+	0b00000,
+	0b00000
 };
 
 const byte emptyCharacter[8] = {
@@ -97,6 +99,17 @@ byte arrowLeftCharacter[] = {
     B00000
 };
 
+byte bulletCharacter[] = {
+    B00100,
+    B01110,
+    B01110,
+    B01110,
+    B01110,
+    B01110,
+    B00000,
+    B01110
+};
+
 void lcdPrintIntroMessage() {
     lcd.setCursor(2, 0);
     lcd.print("Welcome back!");
@@ -111,13 +124,9 @@ void setupLcd() {
     lcd.createChar(4, arrowUpCharacter);
     lcd.createChar(5, arrowDownCharacter);
     lcd.createChar(6, arrowLeftCharacter);
+    lcd.createChar(7, bulletCharacter);
     lcd.begin(16, 2);
     lcdPrintIntroMessage();
-}
-
-void lcdPrintMessage(char* text) {
-    lcd.clear();
-    lcd.print(text);
 }
 
 void lcdPrintBrightnessLevel(int brightnessLevel) {
@@ -171,9 +180,18 @@ void lcdShowEndGameScreen1() {
 }
 
 void lcdShowEndGameScreen2() {
+    int playerScore = getPlayerScore();
+    int place = getScorePosition(playerScore) + 1;
     lcd.clear();
+    lcd.setCursor(0, 1);
+    lcd.print("Your score: ");
+    lcd.print(playerScore);
     lcd.setCursor(0, 0);
-    lcd.print("End game screen 2");
+    lcd.print("You place: ");
+    if (place > 5)
+        lcd.print("> 5");
+    else
+        lcd.print(place);
 }
 
 void lcdShowEndGameWriteName() {
@@ -190,12 +208,29 @@ void lcdShowGameInfo() {
     lcd.setCursor(0, 0);
     lcd.print("$");
     lcd.print(getPlayerScore());
+
     lcd.setCursor(5, 0);
-    lcd.write((byte)3);
-    lcd.print(getPlayerPower());
-    lcd.setCursor(12, 0);
     lcd.write((byte)2);
     lcd.print(getPlayerLife());
+
+    lcd.setCursor(11, 0);
+    lcd.print("LVL:");
+    lcd.print(1);
+
+    lcd.setCursor(0, 1);
+    lcd.write((byte)3);
+    lcd.print('[');
+    for (int i = 0; i < getPlayerPower(); i++)
+        lcd.write((byte)0);
+    lcd.setCursor(7, 1);
+    lcd.print(']');
+
+    lcd.setCursor(11, 1);
+    lcd.print('[');
+    for (int i = 0; i < getNumberShotgunShoots(); i++)
+        lcd.write((byte)7);
+    lcd.setCursor(15, 1);
+    lcd.print(']');
 }
 
 void lcdPrintAbout() {
