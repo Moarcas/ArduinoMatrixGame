@@ -23,6 +23,8 @@ int getPlayerPower();
 
 int getPlayerScore();
 
+int getLevel();
+
 String getPlayerName();
 
 void increasePlayerLife(int);

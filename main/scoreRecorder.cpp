@@ -55,7 +55,6 @@ int getScorePosition(int score) {
 
 void saveScore(int score, String name) {
     int position = getScorePosition(score);
-    Serial.println(position);
 
     if (position >= numberScoresSaved)
         return;

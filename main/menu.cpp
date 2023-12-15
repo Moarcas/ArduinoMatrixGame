@@ -134,9 +134,11 @@ void processStartGame(char action) {
 }
 
 void processGame(char action) {
+    addWallsOnMap();
     showMap();
     processPlayerInfo();
     if (getPlayerLife() == 0) {
+        dieSound();
         currentMenuState = END_GAME_SCREEN1;
         showMenu();
     }
@@ -313,6 +315,21 @@ void processMatrixBrightness(char action) {
     }
 }
 
+void processSetMatrixBrightness(char action) {
+    switch (action) {
+        case 'l':
+            matrixChangeBrightnessLevel(-1);
+            break;
+        case 'r':
+            matrixChangeBrightnessLevel(1);
+            break;
+        case 'p':
+            currentMenuState = MATRIX_BRIGHTNESS;
+            selectionSound();
+            break;
+    }
+}
+
 void processSound(char action) {
     switch (action) {
         case 'u':
@@ -454,21 +471,6 @@ void processResetHighscore(char action) {
         case 'p':
             resetHighscore();
             currentMenuState = RESET_DATA;
-            selectionSound();
-            break;
-    }
-}
-
-void processSetMatrixBrightness(char action) {
-    switch (action) {
-        case 'l':
-            matrixChangeBrightnessLevel(-1);
-            break;
-        case 'r':
-            matrixChangeBrightnessLevel(1);
-            break;
-        case 'p':
-            currentMenuState = MATRIX_BRIGHTNESS;
             selectionSound();
             break;
     }

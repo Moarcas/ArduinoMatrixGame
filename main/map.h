@@ -21,6 +21,8 @@ int matrixGetBrightnessLevel();
 
 void generateMap();
 
+void addWallsOnMap();
+
 void showMap();
 
 bool isOnMap(Position);

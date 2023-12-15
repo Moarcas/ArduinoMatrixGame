@@ -13,4 +13,8 @@ void shootSound();
 
 void shotgunShootSound();
 
+void levelUpSound();
+
+void dieSound();
+
 #endif

@@ -215,7 +215,7 @@ void lcdShowGameInfo() {
 
     lcd.setCursor(11, 0);
     lcd.print("LVL:");
-    lcd.print(1);
+    lcd.print(getLevel());
 
     lcd.setCursor(0, 1);
     lcd.write((byte)3);
@@ -286,7 +286,7 @@ void lcdPrintHighscore(int place, int score, String name) {
     lcd.setCursor(0, 1);
     lcd.print("Place ");
     lcd.print(place);
-    lcd.setCursor(9, 1);
-    lcd.print("Score ");
+    lcd.setCursor(8, 1);
+    lcd.print("Score");
     lcd.print(score);
 }

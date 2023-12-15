@@ -3,6 +3,7 @@
 #include "bullet.h"
 #include "player.h"
 #include "scoreRecorder.h"
+#include "sound.h"
 
 Position playerPosition;
 
@@ -20,7 +21,7 @@ const byte maxLife = 100;
 const byte maxPower = 5;
 
 unsigned long lastLifeDecrement;
-const int lifeDecrementDelay = 1000;
+int lifeDecrementDelay = 500;
 
 const int nameMaxLength = 11; // name + '\0'
 String name = "a";
@@ -61,10 +62,20 @@ void processPlayerLife() {
     }
 }
 
+void processLevel() {
+    if (level * 50 < playerScore) {
+        levelUpSound();
+        level++;
+        lifeDecrementDelay -= 80;
+        playerLife = 100;
+    }
+}
+
 void resetPlayerInfo() {
     playerLife = 100;
     playerScore = 0;
     playerPower = 0;
+    lifeDecrementDelay = 500;
     level = 1;
     name = "a";
     resetBullets();
@@ -89,6 +100,7 @@ void increasePlayerScore(int points) {
 
 void processPlayerInfo() {
     processPlayerLife();
+    processLevel();
 }
 
 Position getPlayerPosition() {
@@ -145,8 +157,4 @@ void playerNameAddChar() {
 
 int getLevel() {
     return level;
-}
-
-void increseLevel() {
-    level++;
 }

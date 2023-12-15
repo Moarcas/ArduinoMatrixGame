@@ -10,9 +10,11 @@ const int loadPin = 10;
 LedControl lc = LedControl(dinPin, clockPin, loadPin, 1);
 const int brightnessMemoryAddress = 6;
 const int maxLevelBrightness = 14;
-const int wallProbability = 70;
+const int wallProbability = 30;
 Position miniMapPosition;
 bool gameMap[mapSize][mapSize];
+unsigned long lastAddedWallTime;
+const int addWallDelay = 500;
 
 void setupMatrix() {
     lc.shutdown(0, false);
@@ -42,12 +44,27 @@ int matrixGetBrightnessLevel() {
 }
 
 void generateMap() {
-    for (int i = 4; i <= 11; i++)
-        for (int j = 4; j <= 11; j++)
-            gameMap[i][j] = 1;
+    int randomNumber;
+    for (int i = 0; i < mapSize; i++)
+        for (int j = 0; j < mapSize; j++) {
+            randomNumber = random(100);
+            gameMap[i][j] = randomNumber < wallProbability;
+        }
     miniMapPosition.line = 0;
     miniMapPosition.column = 0;
     generatePlayerPosition();
+}
+
+void addWallsOnMap() {
+    if (millis() - lastAddedWallTime < addWallDelay)
+        return;
+    int line = random(mapSize);
+    int column = random(mapSize);
+    Position playerPosition = getPlayerPosition();
+    if (playerPosition.line != line && playerPosition.column != column) {
+        gameMap[line][column] = 1;
+        lastAddedWallTime = millis();
+    }
 }
 
 void showMap() {

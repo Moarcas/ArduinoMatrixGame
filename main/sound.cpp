@@ -36,6 +36,18 @@ void shootSound() {
 
 void shotgunShootSound() {
     if (isSilentMode() == false) {
-        tone(buzzerPin, 400, 70);
+        tone(buzzerPin, 600, 80);
+    }
+}
+
+void levelUpSound() {
+    if (isSilentMode() == false) {
+        tone(buzzerPin, 1500, 300);
+    }
+}
+
+void dieSound() {
+    if (isSilentMode() == false) {
+        tone(buzzerPin, 300, 500);
     }
 }
