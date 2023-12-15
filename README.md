@@ -30,7 +30,9 @@ This project showcases an engaging game implemented on Arduino, featuring a 16x1
       <li>The special shoot fires 3 bullets, two diagonally and one in the direction of the player</li>
       <li>When the game starts, the player has maximum life (100), the player's life decreases progressively</li>
       <li>The player dies when his life reaches 0</li>
-      <li></li>
+      <li>If the player destroys a wall with a normal shot, he receives 1 life point and 1 score point</li>
+      <li>If the player destroys a wall with a special shot, he receives 3 life points and 5 score points</li>
+      <li>The player aims to accumulate as many points as possible</li>
     </ul>
   </li>
 </ul>
