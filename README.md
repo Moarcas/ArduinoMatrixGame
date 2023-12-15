@@ -36,3 +36,15 @@ This project showcases an engaging game implemented on Arduino, featuring a 16x1
     </ul>
   </li>
 </ul>
+
+<h2>Used components</h2>
+<ol>
+  <li>Arduino Uno Board</li>
+  <li>Led 8x8 matrix</li>
+  <li>LCD display</li>
+  <li>Joystick</li>
+  <li>Buzzer</li>
+  <li>Capacitors</li>
+  <li>Matrix driver</li>
+  <li>Resistors and wires</li>
+</ol>
