@@ -10,7 +10,7 @@
 This project showcases an engaging game implemented on Arduino, featuring a 16x16 map on a 8x8 matrix display and joystick control. In this game, players navigate a dynamic environment where a character can shoot.  
 </p>
 
-<h2>Instructions on how to play</h2>
+<h2>Rules of the game</h2>
 <ul>
   <li>
     <h3>Menu</h3>
@@ -34,7 +34,7 @@ This project showcases an engaging game implemented on Arduino, featuring a 16x1
       <li>If the player destroys a wall with a special shot, he receives 1 life point and 3 score points</li>
       <li>The player aims to accumulate as many points as possible</li>
       <li>Every 50 points earned increases the level of the game</li>
-      <li>when the player passes to the next level, he receives 10 life points and his life decreases faster</li>
+      <li>When the player passes to the next level, he receives 10 life points and his life decreases faster</li>
     </ul>
   </li>
 </ul>
