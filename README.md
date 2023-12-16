@@ -31,8 +31,10 @@ This project showcases an engaging game implemented on Arduino, featuring a 16x1
       <li>When the game starts, the player has maximum life (100), the player's life decreases progressively</li>
       <li>The player dies when his life reaches 0</li>
       <li>If the player destroys a wall with a normal shot, he receives 1 life point and 1 score point</li>
-      <li>If the player destroys a wall with a special shot, he receives 3 life points and 5 score points</li>
+      <li>If the player destroys a wall with a special shot, he receives 1 life point and 3 score points</li>
       <li>The player aims to accumulate as many points as possible</li>
+      <li>Every 50 points earned increases the level of the game</li>
+      <li>when the player passes to the next level, he receives 10 life points and his life decreases faster</li>
     </ul>
   </li>
 </ul>
