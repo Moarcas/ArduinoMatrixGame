@@ -21,7 +21,7 @@ const byte maxLife = 100;
 const byte maxPower = 5;
 
 unsigned long lastLifeDecrement;
-int lifeDecrementDelay = 500;
+int lifeDecrementDelay = 150;
 
 const int nameMaxLength = 11; // name + '\0'
 String name = "a";
@@ -67,7 +67,7 @@ void processLevel() {
         levelUpSound();
         level++;
         lifeDecrementDelay -= 50;
-        increasePlayerLife(10);
+        increasePlayerLife(5);
     }
 }
 

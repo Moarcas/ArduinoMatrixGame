@@ -17,4 +17,6 @@ void levelUpSound();
 
 void dieSound();
 
+void destroyWallSound();
+
 #endif

@@ -51,3 +51,9 @@ void dieSound() {
         tone(buzzerPin, 300, 500);
     }
 }
+
+void destroyWallSound() {
+    if (isSilentMode() == false) {
+        tone(buzzerPin, 350, 99);
+    }
+}

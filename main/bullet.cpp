@@ -30,6 +30,7 @@ void changeBulletPosition() {
         return;
     }
     if (isWall(bulletPosition)) {
+        destroyWallSound();
         increasePlayerLife(1);
         increasePlayerPower(1);
         increasePlayerScore(1);
@@ -51,8 +52,8 @@ void changeShotgunBulletsPositions() {
             continue;
         }
         if (isWall(shotgunBulletPosition[i])) {
+            destroyWallSound();
             increasePlayerLife(1);
-            increasePlayerPower(1);
             increasePlayerScore(3);
             gameMap[shotgunBulletPosition[i].line][shotgunBulletPosition[i].column] = 0;
             validShotgunBullet[i] = false;
