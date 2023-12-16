@@ -51,7 +51,7 @@ void changeShotgunBulletsPositions() {
             continue;
         }
         if (isWall(shotgunBulletPosition[i])) {
-            increasePlayerLife(3);
+            increasePlayerLife(1);
             increasePlayerPower(1);
             increasePlayerScore(3);
             gameMap[shotgunBulletPosition[i].line][shotgunBulletPosition[i].column] = 0;

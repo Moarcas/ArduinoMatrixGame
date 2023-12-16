@@ -66,8 +66,8 @@ void processLevel() {
     if (level * 50 < playerScore) {
         levelUpSound();
         level++;
-        lifeDecrementDelay -= 80;
-        playerLife = 100;
+        lifeDecrementDelay -= 50;
+        increasePlayerLife(10);
     }
 }
 
