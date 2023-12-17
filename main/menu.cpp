@@ -110,6 +110,7 @@ void showMenu() {
 }
 
 void processIntro(char action) {
+    showIntroMatrix();
     if (action == 'p')
         currentMenuState = START_GAME;
 }
@@ -138,7 +139,6 @@ void processGame(char action) {
     showMap();
     processPlayerInfo();
     if (getPlayerLife() == 0) {
-        dieSound();
         currentMenuState = END_GAME_SCREEN1;
         showMenu();
     }
@@ -220,6 +220,7 @@ void processShowHighscore(char action) {
             break;
         case 'p':
             currentMenuState = HIGHSCORE;
+            resetIndexHighscore();
             break;
     }
 }
@@ -533,6 +534,7 @@ void processMenuState(char action) {
             break;
         case SHOW_HIGHSCORE:
             processShowHighscore(action);
+            showHighscoreMatrix();
             break;
         case SETTINGS:
             processSettings(action);
@@ -544,46 +546,59 @@ void processMenuState(char action) {
             break;
         case LCD_BRIGHTNESS:
             processLcdBrightness(action);
+            showSettingsMatrix();
             break;
         case MATRIX_BRIGHTNESS:
             processMatrixBrightness(action);
+            showSettingsMatrix();
             break;
         case SET_LCD_BRIGHTNESS:
             processSetLcdBrightness(action);
+            showSettingsMatrix();
             break;
         case SET_MATRIX_BRIGHTNESS:
             processSetMatrixBrightness(action);
+            showSettingsMatrix();
             break;
         case SET_SOUND:
             processSound(action);
+            showSettingsMatrix();
             break;
         case SOUND_ON:
             processSoundOn(action);
+            showSettingsMatrix();
             break;
         case SOUND_OFF:
             processSoundOff(action);
+            showSettingsMatrix();
             break;
         case RESET_DATA:
             processResetData(action);
+            showSettingsMatrix();
             break;
         case RESET_LCD_BRIGHTNESS:
             processResetLcdBrightness(action);
+            showSettingsMatrix();
             break;
         case RESET_MATRIX_BIRGHTNESS:
             processResetMatrixBrightness(action);
+            showSettingsMatrix();
             break;
         case RESET_HIGHSCORE:
             processResetHighscore(action);
+            showSettingsMatrix();
             break;
         case SHOW_ABOUT:
             processShowAbout(action);
+            showAboutMatrix();
             break;
         case HOW_TO_PLAY:
-            showAboutMatrix();
             processHowToPlay(action);
+            showAboutMatrix();
             break;
         case SHOW_HOW_TO_PLAY:
             processShowHowToPlay(action);
+            showAboutMatrix();
             break;
     }
     if (action != 'n' || currentMenuState == GAME)

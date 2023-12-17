@@ -173,9 +173,9 @@ int lcdGetBrightnessLevel() {
 void lcdShowEndGameScreen1() {
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Congratulations!");
+    lcd.print(F("Congratulations!"));
     lcd.setCursor(0, 1);
-    lcd.print("Your score: ");
+    lcd.print(F("Your score: "));
     lcd.print(getPlayerScore());
 }
 
@@ -184,10 +184,10 @@ void lcdShowEndGameScreen2() {
     int place = getScorePosition(playerScore) + 1;
     lcd.clear();
     lcd.setCursor(0, 1);
-    lcd.print("Your score: ");
+    lcd.print(F("Your score: "));
     lcd.print(playerScore);
     lcd.setCursor(0, 0);
-    lcd.print("You place: ");
+    lcd.print(F("You place: "));
     if (place > 5)
         lcd.print("> 5");
     else
@@ -197,7 +197,7 @@ void lcdShowEndGameScreen2() {
 void lcdShowEndGameWriteName() {
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Enter your name:");
+    lcd.print(F("Enter your name:"));
     lcd.setCursor(0, 1);
     lcd.print(getPlayerName());
     lcd.write((byte)6);
@@ -214,7 +214,7 @@ void lcdShowGameInfo() {
     lcd.print(getPlayerLife());
 
     lcd.setCursor(11, 0);
-    lcd.print("LVL:");
+    lcd.print(F("LVL:"));
     lcd.print(getLevel());
 
     lcd.setCursor(0, 1);
@@ -236,9 +236,9 @@ void lcdShowGameInfo() {
 void lcdPrintAbout() {
     lcd.clear();
     lcd.setCursor(3, 0);
-    lcd.print("Game name: Odiseea Pixelata");
+    lcd.print(F("Game name: Odiseea Pixelata"));
     lcd.setCursor(3, 1);
-    lcd.print("Author name:Cosmin  github:moarcas");
+    lcd.print(F("Author name:Cosmin  github:moarcas"));
 }
 
 void lcdPrintMenu(char* text) {
@@ -273,20 +273,20 @@ void lcdScrollLeft() {
 void lcdPrintHowToPlay() {
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Destroy walls before you run out of life");
+    lcd.print(F("Destroy walls before you run out of life"));
     lcd.setCursor(0, 1);
-    lcd.print("power 100= the shotgun mode is activated");
+    lcd.print(F("power 100= the shotgun mode is activated"));
 }
 
 void lcdPrintHighscore(int place, int score, String name) {
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Name: ");
+    lcd.print(F("Name: "));
     lcd.print(name);
     lcd.setCursor(0, 1);
-    lcd.print("Place ");
+    lcd.print(F("Place "));
     lcd.print(place);
     lcd.setCursor(8, 1);
-    lcd.print("Score");
+    lcd.print(F("Score"));
     lcd.print(score);
 }

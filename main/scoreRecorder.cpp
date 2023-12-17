@@ -83,6 +83,8 @@ void resetHighscore() {
 void showHighscore() {
     int score = getScoreFromEEPROM(indexCurrentScore);
     String name = getNameFromEEPROM(indexCurrentScore);
+    if (name == "")
+        name = "None";
     lcdPrintHighscore(indexCurrentScore + 1, score, name);
 }
 
@@ -94,4 +96,8 @@ void goToNextHighscore() {
 void goToPrevHighscore() {
     if (indexCurrentScore != 0)
         indexCurrentScore--;
+}
+
+void resetIndexHighscore() {
+    indexCurrentScore = 0;
 }

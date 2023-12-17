@@ -16,4 +16,6 @@ void goToNextHighscore();
 
 void goToPrevHighscore();
 
+void resetIndexHighscore();
+
 #endif
