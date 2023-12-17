@@ -5,9 +5,14 @@
   <img src="https://github.com/Moarcas/ArduinoMatrixGame/blob/master/game.jpg" alt=" Matrix Game Photo">
 </p>
 
+<h2>Backstory about the game</h2>
+<p>
+  Dive into a retro gaming adventure with this Arduino project. Inspired by classics like Space Invaders, it features a 16x16 world on an 8x8 matrix display, joystick-controlled. Navigate menus, shoot walls, and earn points for a simple yet     engaging experience.
+</p>
+
 <h2>Game description</h2>
 <p>
-This project showcases an engaging game implemented on Arduino, featuring a 16x16 map on a 8x8 matrix display and joystick control. In this game, players navigate a dynamic environment where a character can shoot.  
+This project showcases an engaging game implemented on Arduino, featuring a 16x16 map on a 8x8 matrix display and joystick control. In this game the players can walk around the map and destroy the walls
 </p>
 
 <h2>Rules of the game</h2>
@@ -34,7 +39,7 @@ This project showcases an engaging game implemented on Arduino, featuring a 16x1
       <li>If the player destroys a wall with a special shot, he receives 1 life point and 3 score points</li>
       <li>The player aims to accumulate as many points as possible</li>
       <li>Every 50 points earned increases the level of the game</li>
-      <li>When the player passes to the next level, he receives 10 life points and his life decreases faster</li>
+      <li>When the player passes to the next level, he receives 5 life points and his life decreases faster</li>
     </ul>
   </li>
 </ul>
