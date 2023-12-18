@@ -20,6 +20,7 @@ const int delayMatrixAnimation = 120;
 unsigned long lastMatrixMove;
 
 void setupMatrix() {
+    randomSeed(analogRead(0));
     lc.shutdown(0, false);
     lc.setIntensity(0, matrixGetBrightnessLevel());
     lc.clearDisplay(0);
