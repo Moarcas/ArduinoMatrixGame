@@ -18,6 +18,8 @@ enum MenuState {
     SETTINGS,
         LCD_BRIGHTNESS,
             SET_LCD_BRIGHTNESS,
+        LCD_CONTRAST,
+            SET_LCD_CONTRAST,
         MATRIX_BRIGHTNESS,
             SET_MATRIX_BRIGHTNESS,
         SET_SOUND,
@@ -25,6 +27,7 @@ enum MenuState {
             SOUND_OFF,
         RESET_DATA,
             RESET_LCD_BRIGHTNESS,
+            RESET_LCD_CONTRAST,
             RESET_MATRIX_BIRGHTNESS,
             RESET_HIGHSCORE,
     ABOUT,
@@ -64,6 +67,9 @@ void showMenu() {
         case LCD_BRIGHTNESS:
             lcdPrintSubmenu("LCD brightness");
             break;
+        case LCD_CONTRAST:
+            lcdPrintSubmenu("LCD contrast");
+            break;
         case MATRIX_BRIGHTNESS:
             lcdPrintSubmenu("Map brightness");
             break;
@@ -82,6 +88,9 @@ void showMenu() {
         case RESET_LCD_BRIGHTNESS:
             lcdPrintSubmenu("Reset lcd b.");
             break;
+        case RESET_LCD_CONTRAST:
+            lcdPrintSubmenu("Reset lcd con.");
+            break;
         case RESET_MATRIX_BIRGHTNESS:
             lcdPrintSubmenu("Reset matrix b.");
             break;
@@ -93,6 +102,9 @@ void showMenu() {
             break;
         case SET_LCD_BRIGHTNESS:
             lcdPrintBrightnessLevel(lcdGetBrightnessLevel());
+            break;
+        case SET_LCD_CONTRAST:
+            lcdPrintBrightnessLevel(lcdGetContrastLevel());
             break;
         case SET_MATRIX_BRIGHTNESS:
             lcdPrintBrightnessLevel(matrixGetBrightnessLevel());
@@ -266,7 +278,7 @@ void processLcdBrightness(char action) {
             menuSound();
             break;
         case 'd':
-            currentMenuState = MATRIX_BRIGHTNESS;
+            currentMenuState = LCD_CONTRAST;
             menuSound();
             break;
         case 'l':
@@ -295,10 +307,42 @@ void processSetLcdBrightness(char action) {
     }
 }
 
-void processMatrixBrightness(char action) {
+void processLcdContrast(char action) {
     switch (action) {
         case 'u':
             currentMenuState = LCD_BRIGHTNESS;
+            menuSound();
+            break;
+        case 'd':
+            currentMenuState = MATRIX_BRIGHTNESS;
+            menuSound();
+            break;
+        case 'p':
+            currentMenuState = SET_LCD_CONTRAST;
+            selectionSound();
+            break;
+    }
+}
+
+void processSetLcdContrast(char action) {
+    switch (action) {
+        case 'l':
+            lcdChangeContrastLevel(-1);
+            break;
+        case 'r':
+            lcdChangeContrastLevel(1);
+            break;
+        case 'p':
+            currentMenuState = LCD_CONTRAST;
+            selectionSound();
+            break;
+    }
+}
+
+void processMatrixBrightness(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = LCD_CONTRAST;
             menuSound();
             break;
         case 'd':
@@ -418,7 +462,7 @@ void processResetLcdBrightness(char action) {
             menuSound();
             break;
         case 'd':
-            currentMenuState = RESET_MATRIX_BIRGHTNESS;
+            currentMenuState = RESET_LCD_CONTRAST;
             menuSound();
             break;
         case 'l':
@@ -433,10 +477,32 @@ void processResetLcdBrightness(char action) {
     }
 }
 
-void processResetMatrixBrightness(char action) {
+void processResetLcdContrast(char action) {
     switch (action) {
         case 'u':
             currentMenuState = RESET_LCD_BRIGHTNESS;
+            menuSound();
+            break;
+        case 'd':
+            currentMenuState = RESET_MATRIX_BIRGHTNESS;
+            menuSound();
+            break;
+        case 'l':
+            currentMenuState = RESET_DATA;
+            menuSound();
+            break;
+        case 'p':
+            lcdResetContrast();
+            currentMenuState = RESET_DATA;
+            selectionSound();
+            break;
+    }
+}
+
+void processResetMatrixBrightness(char action) {
+    switch (action) {
+        case 'u':
+            currentMenuState = RESET_LCD_CONTRAST;
             menuSound();
             break;
         case 'd':
@@ -548,12 +614,20 @@ void processMenuState(char action) {
             processLcdBrightness(action);
             showSettingsMatrix();
             break;
+        case LCD_CONTRAST:
+            processLcdContrast(action);
+            showSettingsMatrix();
+            break;
         case MATRIX_BRIGHTNESS:
             processMatrixBrightness(action);
             showSettingsMatrix();
             break;
         case SET_LCD_BRIGHTNESS:
             processSetLcdBrightness(action);
+            showSettingsMatrix();
+            break;
+        case SET_LCD_CONTRAST:
+            processSetLcdContrast(action);
             showSettingsMatrix();
             break;
         case SET_MATRIX_BRIGHTNESS:
@@ -578,6 +652,10 @@ void processMenuState(char action) {
             break;
         case RESET_LCD_BRIGHTNESS:
             processResetLcdBrightness(action);
+            showSettingsMatrix();
+            break;
+        case RESET_LCD_CONTRAST:
+            processResetLcdContrast(action);
             showSettingsMatrix();
             break;
         case RESET_MATRIX_BIRGHTNESS:

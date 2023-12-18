@@ -17,6 +17,12 @@ void lcdResetBrightness();
 
 int lcdGetBrightnessLevel();
 
+void lcdChangeContrastLevel(int);
+
+void lcdResetContrast();
+
+int lcdGetContrastLevel();
+
 void lcdShowGameInfo();
 
 void lcdShowEndGameScreen1();

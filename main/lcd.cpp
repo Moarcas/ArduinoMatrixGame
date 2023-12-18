@@ -8,16 +8,20 @@
 const int rs = 9;
 const int en = 8;
 const int d4 = 7;
-const int d5 = 6;
+const int d5 = A5;
 const int d6 = 3;
 const int d7 = 4;
 
 const int brightnessPin = 5;
 const int brightnessMemoryAddress = 4;
 
+const int contrastPin = 6;
+const int contrastMemoryAddress = 2;
+
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 const int maxLevelBrightness = 14;
+const int maxLevelContrast = 14;
 
 unsigned long lastShift;
 const int delayShift = 500;
@@ -116,7 +120,17 @@ void lcdPrintIntroMessage() {
 }
 
 void setupLcd() {
+    pinMode(rs, OUTPUT);
+    pinMode(en, OUTPUT);
+    pinMode(d4, OUTPUT);
+    pinMode(d5, OUTPUT);
+    pinMode(d6, OUTPUT);
+    pinMode(d7, OUTPUT);
+    pinMode(brightnessPin, OUTPUT);
+    pinMode(contrastPin, OUTPUT);
+
     lcdChangeBrightnessLevel(0);
+    lcdChangeContrastLevel(0);
     lcd.createChar(0, fullCharacter);
     lcd.createChar(1, emptyCharacter);
     lcd.createChar(2, heartCharacter);
@@ -145,7 +159,7 @@ void lcdPrintBrightnessLevel(int brightnessLevel) {
 }
 
 int brightnessValueFromLevel(int level) {
-    return 160 - 4 * level;
+    return 50 + 10 * level;
 }
 
 void lcdChangeBrightnessLevel(int difference) {
@@ -168,6 +182,31 @@ int lcdGetBrightnessLevel() {
     int brightnessLevel;
     EEPROM.get(brightnessMemoryAddress, brightnessLevel);
     return brightnessLevel;
+}
+
+int contrastValueFromLevel(int level) {
+    return 170 - 4 * level;
+}
+
+void lcdChangeContrastLevel(int difference) {
+    int contrastLevel, newContrastLevel;
+    EEPROM.get(contrastMemoryAddress, contrastLevel);
+    newContrastLevel = contrastLevel + difference;
+    if (newContrastLevel >= 1 && newContrastLevel <= maxLevelContrast) {
+        EEPROM.put(contrastMemoryAddress, newContrastLevel);
+        analogWrite(contrastPin, contrastValueFromLevel(newContrastLevel));
+    }
+}
+
+void lcdResetContrast() {
+    EEPROM.put(contrastMemoryAddress, int(maxLevelContrast / 2));
+    analogWrite(contrastPin, contrastValueFromLevel(int(maxLevelContrast / 2)));
+}
+
+int lcdGetContrastLevel() {
+    int contrastLevel;
+    EEPROM.get(contrastMemoryAddress, contrastLevel);
+    return contrastLevel;
 }
 
 void lcdShowEndGameScreen1() {

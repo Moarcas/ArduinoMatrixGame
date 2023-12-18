@@ -1,4 +1,4 @@
-#include "map.h"
+# include "map.h"
 #include "player.h"
 #include "joystick.h"
 #include "menu.h"
