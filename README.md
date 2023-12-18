@@ -55,3 +55,11 @@ This project showcases an engaging game implemented on Arduino, featuring a 16x1
   <li>Matrix driver</li>
   <li>Resistors and wires</li>
 </ol>
+
+<h2 align="center">Video</h2>
+
+<p align="center">
+  <a href="https://youtu.be/V6WaHavQ9yE">
+    <img src="https://img.youtube.com/vi/V6WaHavQ9yE/maxresdefault.jpg" alt="Watch the video">
+  </a>
+</p>
