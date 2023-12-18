@@ -317,6 +317,10 @@ void processLcdContrast(char action) {
             currentMenuState = MATRIX_BRIGHTNESS;
             menuSound();
             break;
+        case 'l':
+            currentMenuState = SETTINGS;
+            menuSound();
+            break;
         case 'p':
             currentMenuState = SET_LCD_CONTRAST;
             selectionSound();
