@@ -314,7 +314,7 @@ void lcdPrintHowToPlay() {
     lcd.setCursor(0, 0);
     lcd.print(F("Destroy walls before you run out of life"));
     lcd.setCursor(0, 1);
-    lcd.print(F("power 100= the shotgun mode is activated"));
+    lcd.print(F("Destroy 5 walls to get 3 super shoots"));
 }
 
 void lcdPrintHighscore(int place, int score, String name) {
