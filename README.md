@@ -1,4 +1,3 @@
-# ArduinoMatrixGame
 <h1 align="center">Arduino Matrix Game</h1>
 
 <p align="center">
@@ -7,13 +6,54 @@
 
 <h2>Backstory about the game</h2>
 <p>
-  Dive into a retro gaming adventure with this Arduino project. Inspired by classics like Space Invaders, it features a 16x16 world on an 8x8 matrix display, joystick-controlled. Navigate menus, shoot walls, and earn points for a simple yet     engaging experience.
+  Dive into a retro gaming adventure with this Arduino project. Inspired by classics like Space Invaders, it features a 16x16 world on an 8x8 matrix display, joystick-controlled. Navigate menus, shoot walls, and earn points for a engaging       
+  experience.
 </p>
 
 <h2>Game description</h2>
 <p>
-This project showcases an engaging game implemented on Arduino, featuring a 16x16 map on a 8x8 matrix display and joystick control. In this game the players can walk around the map and destroy the walls
+This project showcases an engaging game implemented on Arduino, featuring a 16x16 map on a 8x8 matrix display and joystick control. In this game the players can walk around the map and destroy the walls. 
+The goal of the player is to destroy the walls as fast as possible to receive life points and pass to the next level. 
 </p>
+
+<h2>Menu Structure</h2>
+<ol>
+  <li>
+    <h4>Start game</h4>
+  </li>
+  <li>
+    <h4>Highscores</h4>
+  </li>
+  <li>
+    <h4>Settings</h4>
+    <ul>
+      <li>LCD brightness</li>
+      <li>LCD contrast</li>
+      <li>Matrix brightness</li>
+      <li>
+        Sound
+        <ul>
+          <li>Sound ON</li>
+          <li>Sound OFF</li>
+        </ul>
+      </li>
+      <li>
+        Reset data
+        <ul>
+          <li>Reset LCD brightness</li>
+          <li>Reset LCD contrast</li>
+          <li>Reset matrix brightness</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <h4>About</h4>
+  </li>
+  <li>
+    <h4>How to play</h4>
+  </li>
+</ol>
 
 <h2>Rules of the game</h2>
 <ul>
