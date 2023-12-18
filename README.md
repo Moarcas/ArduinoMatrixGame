@@ -43,6 +43,7 @@ The goal of the player is to destroy the walls as fast as possible to receive li
           <li>Reset LCD brightness</li>
           <li>Reset LCD contrast</li>
           <li>Reset matrix brightness</li>
+          <li>Reset highscores</li>
         </ul>
       </li>
     </ul>
